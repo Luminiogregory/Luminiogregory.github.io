@@ -340,7 +340,7 @@ div.dataTables_wrapper div.dataTables_filter label{
         margin-top: 30px;
     }
 }
-@media screen and (max-width:750px){
+@media screen and (max-width:876px){
     .table th span{
         display: block;
     }

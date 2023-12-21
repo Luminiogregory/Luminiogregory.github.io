@@ -169,6 +169,14 @@
     })
     /////// ACTION CLICK BOUTON FERMER DIV MODIFIER ADHERENT
     fermeDiv.addEventListener('click',function () {
+        inputNom1.value="";
+            inputPrenom1.value="";
+            inputMail1.value="";
+            inputAdresse1.value="";
+            inputId1.value="";
+            inputCot1.value="";
+            inputBd1.value="";
+            inputAmende1.value="";
         divFormModifierAdherent.classList.remove('fenetreApparaitDisparait');
         fondOpaque.classList.remove('fondOpaApparait')
         location.reload();
@@ -207,6 +215,10 @@
 //////////////////////////////////////////////////// FUNCTION /////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * Permet de génerer un id unique qui sert de clef dans le local storage
+     * @param {string} uniqueID 
+     */
     function generate(uniqueID) {
         let id = () => {
         return Math.floor((1 + Math.random()) * 0x1000000)
@@ -217,6 +229,9 @@
     };
     //#################################################################################################################
 
+    /**
+     * Permet d'ajoutert un adherent, de controler les champ via la classe Adherent et de le stocker dans le local storage
+     */
     function ajouteNom() {
         var nom = inputNom.value;
         var prenom = inputPrenom.value;
@@ -263,6 +278,9 @@
 
     //##############################################################################################################################
 
+    /**
+     * Permet de modifier l'adherent, le supprime du local storage et le recré en controlant les informations saisie via la classe Adherent 
+     */
     function ajouteNomModifAdherent() {
         var nom = inputNom1.value;
         var prenom = inputPrenom1.value;
@@ -300,14 +318,6 @@
             divErrmod.classList.add('fenetreApparaitDisparait');
             divSuccesmod.classList.remove('fenetreApparaitDisparait');
             divErrmod.innerText = err.message;
-            inputNom1.value="";
-            inputPrenom1.value="";
-            inputMail1.value="";
-            inputAdresse1.value="";
-            inputId1.value="";
-            inputCot1.value="";
-            inputBd1.value="";
-            inputAmende1.value="";
             stockStorage(jsonValAdhent.nom,jsonValAdhent.prenom,jsonValAdhent.mail,jsonValAdhent.adresse,jsonValAdhent.bdLoue,jsonValAdhent.amende,jsonValAdhent.cotisation,jsonValAdhent.idUnique);
         };
     };
@@ -322,6 +332,16 @@
 
     //################################################################################################################################
 
+    /**
+     * Permet de creer chaque ligne du tableau avec ses éléments associé
+     * @param {string} id 
+     * @param {string} name 
+     * @param {string} prenom 
+     * @param {string} date 
+     * @param {string} nbrLivre 
+     * @param {string} nbrAmende 
+     * @param {string} mail 
+     */
     function addNewRow(id, name, prenom, date,nbrLivre, nbrAmende,mail) {
         
         var ann = date.slice(-4);
@@ -393,6 +413,10 @@
 
     //###################################################################################################################
 
+    /**
+     * Permet de parcourir une map stringifier et d'appeler une fonction qui stock dans le local storage
+     * @param {string} valeur 
+     */
     function stockLocalStorage(valeur){
    
         if (valeur) {
@@ -408,6 +432,9 @@
 
     //######################################################################################################################
 
+    /**
+     * Permet de parcourir le local storage pour appeler la fonction qui creer la ligne associé a la clef fournie
+     */
     function afficheAdherentTableaux(){
         
         for (let i = 0; i < localStorage.length; i++) {
@@ -427,6 +454,10 @@
 
     //########################################################################################################################
 
+    /**
+     * Permet de mettre a jour la cotisation de l'adherent en le supprime du local storage et le recrée avec la nouvelle date a jour
+     * @param {*} key 
+     */
     function metAJourAdherent(key){
 
         console.log(key);
@@ -449,6 +480,17 @@
 
     ///############################################################################################################################################
 
+    /**
+     * Permet de stocker dans le local storage avec comme clef l'ID unique
+     * @param {*} nom1 
+     * @param {*} prenom1 
+     * @param {*} mail1 
+     * @param {*} adresse1 
+     * @param {*} bdloue1 
+     * @param {*} amende1 
+     * @param {*} cotisation1 
+     * @param {*} idUnique1 
+     */
     function stockStorage(nom1,prenom1,mail1,adresse1,bdloue1,amende1,cotisation1,idUnique1) {
         var serial = '{"nom": "' + nom1 + '", "prenom":"' + prenom1 + '", "mail":"' + mail1 + '", "adresse":"' + adresse1 + '", "bdLoue":"' + bdloue1 + '", "amende":"' + amende1 + '", "cotisation":"' + cotisation1 + '", "idUnique":"' + idUnique1 +'"' + '}'; 
         
@@ -515,23 +557,13 @@
         return idOfRowBtn;
     }
 
-    //###########################################################################################################################################################
-
-    function rechargeAdherentStorage(key) {
-
-        var valAdherent = localStorage.getItem(key).split(";");
-        var tAdhere = JSON.parse(valAdherent);
-        var ligne = button.parentNode;
-        var idOfRowBtn = ligne.innerText.slice(-1);
-        var idOfRowBtn =parseInt(idOfRowBtn)-1;
-        var idOfRowBtn = idOfRowBtn.toString();
-
-        localStorage.removeItem(key);
-        stockStorage(tAdhere.nom,tAdhere.prenom,tAdhere.mail,tAdhere.adresse,tAdhere.bdLoue,idOfRowBtn,tAdhere.cotisation,tAdhere.idUnique); 
-        
-    }
     //#################################################################################################################################"#########################
     
+    /**
+     * Permet d'afficher les informations de l'adherent dans la fenetre fournie en parametre
+     * @param {*} params 
+     * @param {*} parametre 
+     */
     function afficheAdherentAddSupp(params,parametre) {
         var valAdherent = localStorage.getItem(params).split(";");
         
@@ -567,6 +599,10 @@
 
     //############################################################################################################################################################
 
+    /**
+     * Permet de supprimer un adherent du tableaux tout en le gardant dans notre BDD
+     * @param {*} key 
+     */
     function suprimeAdherent(key){
         var archive = "Archive";
         var valAdherent = localStorage.getItem(key).split(";");
